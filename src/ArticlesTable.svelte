@@ -8,9 +8,6 @@
     let sectionNames = {}; // { section_id: "Section Name", ... }
     let categoryNames = {}; // { category_id: "Category Name", ... }
 
-
-
-
     // Lors du chargement du composant, nous allons chercher les articles.
     onMount(async () => {
     const articlesResponse = await fetch('https://newenki.zendesk.com/api/v2/help_center/fr/articles');
@@ -30,6 +27,8 @@
         }
     }
 });
+
+
 
 
 </script>
@@ -82,7 +81,7 @@
     }
 
     th {
-        background-color: #f2f2f2;
+        background-color: #EDE5DA;
         color: #035010;
     }
 </style>
