@@ -17,13 +17,16 @@
         if (!sectionNames[article.section_id]) {
             const sectionResponse = await fetch(`https://newenki.zendesk.com/api/v2/help_center/fr/sections/${article.section_id}`);
             const sectionData = await sectionResponse.json();
-            sectionNames[article.section_id] = sectionData.section.name;
+            sectionNames[article.section_id] = sectionData.section;
+            console.log(sectionNames[article.section_id]);
         }
 
-        if (!categoryNames[article.category_id]) {
-            const categoryResponse = await fetch(`https://newenki.zendesk.com/api/v2/help_center/fr/categories/${article.category_id}`);
+        let category_id = sectionNames[article.section_id].category_id; 
+
+        if (!categoryNames[category_id]) {
+            const categoryResponse = await fetch(`https://newenki.zendesk.com/api/v2/help_center/fr/categories/${category_id}`);
             const categoryData = await categoryResponse.json();
-            categoryNames[article.category_id] = categoryData.category.name;
+            categoryNames[article.section_id] = categoryData.category.name;
         }
     }
 });
@@ -49,9 +52,9 @@
                 <!-- Affiche le titre de l'article -->
                 <td>{article.title}</td>
 
-                <td>{categoryNames[article.category_id] || 'Loading...'}</td>
+                <td>{categoryNames[article.section_id] || article.section_id}</td>
                 
-                <td>{sectionNames[article.section_id] || 'Loading...'}</td> <!-- Nouvelle cellule pour afficher l'ID de la section -->
+                <td>{sectionNames[article.section_id] && sectionNames[article.section_id].name}</td> <!-- Nouvelle cellule pour afficher l'ID de la section -->
 
                 <!-- Affiche le label de l'article. Si plusieurs labels, les joint par une virgule -->
                 <td>{article.label_names.join(', ')}</td>
