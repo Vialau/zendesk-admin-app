@@ -1,6 +1,9 @@
 
 <script>
     import { onMount } from 'svelte';
+    let selectedCategory = '';
+    let selectedSection = '';
+    let labelFilter = 'all'; // 'all' ou 'duplicate'
 
     // Ceci est une variable pour stocker les articles venant de l'API.
     let articles = [];
@@ -29,9 +32,15 @@
             categoryNames[article.section_id] = categoryData.category.name;
         }
     }
+
+    articles.forEach(article => {
+    article.label_names.forEach(label => {
+        labelCounts[label] = (labelCounts[label] || 0) + 1;
+    });
+});
 });
 
-
+let labelCounts = {}; // { labelName: count, ... }
 
 
 </script>
@@ -40,14 +49,37 @@
     <thead>
         <tr>
             <th>Titre</th>
-            <th>Catégorie</th>
-            <th>Section</th>
-            <th>Label</th>
+            <th>
+                <select bind:value={selectedCategory}>
+                    <option value="">Catégories</option>
+                    {#each Object.values(categoryNames) as category}
+                        <option value={category}>{category}</option>
+                    {/each}
+                </select>
+            </th>
+            <th>
+                <select bind:value={selectedSection}>
+                    <option value="">Sections</option>
+                    {#each Object.values(sectionNames) as section}
+                        <option value={section.name}>{section.name}</option>
+                    {/each}
+                </select>
+                <th>
+                    <select bind:value={labelFilter}>
+                        <option value="all">Tous les Labels</option>
+                        <option value="duplicate">Doublons</option>
+                    </select>
+                </th>
             <th>URL</th>
         </tr>
     </thead>
     <tbody>
-        {#each articles as article}
+        {#each articles.filter(article => 
+            (labelFilter === 'all' || 
+            (labelFilter === 'duplicate' && article.label_names.some(label => labelCounts[label] > 1))) &&
+            (!selectedCategory || categoryNames[article.section_id] === selectedCategory) && 
+            (!selectedSection || (sectionNames[article.section_id] && sectionNames[article.section_id].name === selectedSection))
+        ) as article}
             <tr>
                 <!-- Affiche le titre de l'article -->
                 <td>{article.title}</td>
@@ -57,7 +89,16 @@
                 <td>{sectionNames[article.section_id] && sectionNames[article.section_id].name}</td> <!-- Nouvelle cellule pour afficher l'ID de la section -->
 
                 <!-- Affiche le label de l'article. Si plusieurs labels, les joint par une virgule -->
-                <td>{article.label_names.join(', ')}</td>
+                <td>
+                    {#each article.label_names as label}
+                    <span class={labelCounts[label] > 1 ? 'duplicate-label' : ''}>
+                        {label}
+                    </span>
+                    {#if label !== article.label_names[article.label_names.length - 1]}
+                        , 
+                    {/if}
+                {/each}
+                </td>
                 
                 <!-- Affiche une icône cliquable qui redirige vers l'URL de l'article -->
                 <td>
@@ -87,5 +128,11 @@
     th {
         background-color: white;
         color: black;
+    }
+
+    th select {
+        border-style: none;
+        color: black;
+        font-weight: bold; 
     }
 </style>
