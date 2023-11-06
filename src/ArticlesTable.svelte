@@ -76,6 +76,7 @@
         width: 100%;
         border-collapse: collapse;
         border-radius: 8px;
+        background-color: white;
     }
 
     th, td {
@@ -84,7 +85,7 @@
     }
 
     th {
-        background-color: #EDE5DA;
-        color: #035010;
+        background-color: white;
+        color: black;
     }
 </style>
