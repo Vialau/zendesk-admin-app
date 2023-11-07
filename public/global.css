@@ -66,3 +66,7 @@ button:focus {
 .duplicate-label {
     color: #C61112;
 }
+
+.badge rounded-pill text-bg-secondary {
+	color: black;
+}

@@ -5,7 +5,7 @@
 	<meta name='viewport' content='width=device-width,initial-scale=1'>
 
 	<title>Zendesk Admin</title>
-
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
 	<link rel='icon' type='image/png' href='/favicon.png'>
 	<link rel='stylesheet' href='/global.css'>
 	<link rel='stylesheet' href='/build/bundle.css'>
@@ -14,5 +14,25 @@
 </head>
 
 <body>
+
+	<!-- Modal HTML -->
+<div class="modal fade" id="deleteLabelModal" tabindex="-1" aria-labelledby="deleteLabelModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h5 class="modal-title" id="deleteLabelModalLabel">Confirmer la suppression</h5>
+		  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		</div>
+		<div class="modal-body">
+		  Êtes-vous sûr de vouloir supprimer ce label ?
+		</div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+		  <button type="button" class="btn btn-danger" on:click={confirmDelete}>Supprimer</button>
+		</div>
+	  </div>
+	</div>
+  </div>
+  
 </body>
 </html>
