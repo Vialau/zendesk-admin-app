@@ -21,20 +21,6 @@
 
     let labelToDelete = null;
 
-  // Cette fonction est appelée lors du chargement du composant pour charger les labels
-  async function loadLabels() {
-    try {
-      const response = await fetch('https://newenki.zendesk.com/api/v2/help_center/articles/labels');
-      if (response.ok) {
-        labels = await response.json(); // Mettez à jour l'état des labels avec les données de l'API
-      } else {
-        // Gérer les erreurs ici
-        console.error("Erreur lors du chargement des labels");
-      }
-    } catch (error) {
-      console.error("Erreur lors de la connexion à l'API", error);
-    }
-  }
 
     // Pour chaque article, vous aurez besoin d'un état pour stocker le nouveau label
     let newLabels = {}; // { articleId: 'new label name' }
@@ -90,6 +76,30 @@
             });
         });
     }
+
+
+  // Cette fonction est appelée lors du chargement du composant pour charger les labels
+  async function loadLabels() {
+    try {
+      const response = await fetch('https://newenki.zendesk.com/api/v2/help_center/articles/labels'); 
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Basic ${encodedCredentials}`
+        },
+      });
+
+      if (response.ok) {
+        labels = await response.json(); // Mettez à jour l'état des labels avec les données de l'API
+      } else {
+        // Gérer les erreurs ici
+        console.error("Erreur lors du chargement des labels");
+      }
+    } catch (error) {
+      console.error("Erreur lors de la connexion à l'API", error);
+    }
+  }
 
 let labelCounts = {}; // { labelName: count, ... }
 
