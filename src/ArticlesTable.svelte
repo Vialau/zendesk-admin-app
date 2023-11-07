@@ -80,26 +80,26 @@
 
   // Cette fonction est appelée lors du chargement du composant pour charger les labels
   async function loadLabels() {
-    try {
-      const response = await fetch('https://newenki.zendesk.com/api/v2/help_center/articles/labels'); 
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Basic ${encodedCredentials}`
-        },
-      });
+  try {
+    const response = await fetch('https://newenki.zendesk.com/api/v2/help_center/articles/labels', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Basic ${encodedCredentials}`
+      },
+    });
 
-      if (response.ok) {
-        labels = await response.json(); // Mettez à jour l'état des labels avec les données de l'API
-      } else {
-        // Gérer les erreurs ici
-        console.error("Erreur lors du chargement des labels");
-      }
-    } catch (error) {
-      console.error("Erreur lors de la connexion à l'API", error);
+    if (response.ok) {
+      const labels = await response.json(); // Mettez à jour l'état des labels avec les données de l'API
+      console.log(labels); // Afficher les labels dans la console pour débogage
+    } else {
+      // Gérer les erreurs de réponse ici
+      console.error("Erreur lors du chargement des labels: ", response.statusText);
     }
+  } catch (error) {
+    console.error("Erreur lors de la connexion à l'API", error);
   }
+}
 
 let labelCounts = {}; // { labelName: count, ... }
 
